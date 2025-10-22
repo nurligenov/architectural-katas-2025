@@ -1,6 +1,6 @@
 # ADR-07: Event-Driven Alerting for Low SoC + High Demand
 
-**Status:** Accepted
+**Status:** Declined
 **Date:** 2025-10-19
 
 ## Context
@@ -24,7 +24,8 @@ Alerts are summarized by an **LLM Alert Summarizer** and pushed to the Dispatche
 **Negative:**
 - Risk of false positives under noisy conditions.
 - Requires tuning to prevent “alert fatigue.”
+- There’s no real-time impact, as the dispatcher team may take several hours to act on the requests.
 
 ## Alternatives Considered
-- Batch polling every 30 minutes (rejected: too slow).
+- Batch polling every n minutes (more practical approach).
 - Manual dispatcher monitoring (rejected: not scalable).
