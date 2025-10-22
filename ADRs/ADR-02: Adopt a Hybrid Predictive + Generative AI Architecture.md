@@ -10,9 +10,9 @@ Relying solely on deterministic models would optimize known patterns but fail in
 
 ## Decision
 We will adopt a **hybrid architecture** combining:
-- **Predictive models** (Temporal Fusion Transformer, Gradient Boosted Decision Trees) for demand forecasting and SoC depletion.
-- **Generative AI models** (Graph Transformer / Diffusion Models) for producing diverse route candidates and what-if scenarios.
-- **Classical optimization** (CVRPTW solver) to ensure route feasibility.
+- **Predictive models** for demand forecasting and SoC depletion.
+- **Generative AI models** for producing diverse route candidates and what-if scenarios.
+- **Classical optimization** to ensure route feasibility.
 
 ## Consequences
 **Positive:**
