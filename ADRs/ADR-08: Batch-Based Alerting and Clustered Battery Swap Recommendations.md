@@ -17,16 +17,12 @@ Each batch process will:
 4. Generate optimal routes per cluster using a **CVRPTW solver** (Capacitated Vehicle Routing Problem with Time Windows).  
 5. Pass results to the **LLM Summarizer**, which converts raw metrics into actionable text for dispatchers, e.g.:
 
-> “⚡ You should charge 5 scooters in the Downtown cluster and 3 in Midtown.  
-> Estimated completion: 2.5 hours. Route 1 covers Bays 14, 15, and 18.”
-
 ## Model Choices
 | Purpose | Model | Description |
 |----------|--------|-------------|
 | **Clustering** | *K-Means* | Groups low-SoC vehicles geographically into manageable clusters (e.g., per 2–3 km zone). |
 | **Density-based alternative** | *DBSCAN* | Automatically detects natural clusters without specifying K, good for uneven spatial data. |
 | **Nearest-bay lookup** | *KNN (supporting)* | Finds the nearest available bay with charged vehicles or chargers. |
-| **Optimization** | *CVRPTW Solver (OR-Tools)* | Generates optimal routes per cluster for staff vans. |
 
 ## Consequences
 **Positive:**
