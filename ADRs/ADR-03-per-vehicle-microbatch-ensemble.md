@@ -1,88 +1,53 @@
 # ADR-03: Per-Vehicle Micro-Batch + Ensemble Inference for 2–3h Maintenance Risk
 
-**Date:** 2025-10-22  
-**Status:** Proposed 
-**Decision Type:** Architecture & Modeling
+## Status
+- **PROPOSED**
 
 ## Context
-We collect real-time telemetry for each electric vehicle (EV): battery (SoC, temp, voltage), GPS/velocity, error codes, usage patterns, and recent maintenance events. We want to predict whether a specific vehicle will likely require maintenance in the **next 2–3 hours**, to support proactive dispatch and reduce roadside failures.
+We collect real-time telemetry for each electric vehicle (EV): battery (SoC, temperature, voltage), GPS/velocity, diagnostic error codes, usage patterns, and recent maintenance events.  
+Our goal is to predict whether a vehicle will likely require maintenance in the **next 2–3 hours**, enabling proactive dispatch and reducing unplanned downtime.
 
-### Constraints & drivers
-- Decisions must be refreshed frequently (sub-5-minute staleness) but can tolerate seconds of latency; strict real-time per-event scoring is not required.
-- Feature engineering benefits from short-window aggregates (e.g., moving averages, rates of change).
-- Model diversity (specialists for battery health, thermal issues, location/usage context) is desirable; single models underperform across all failure modes.
-- Interpretability and governance are required (explainable alerts, audit trails).
+**Key drivers and constraints:**
+- Decisions must be refreshed frequently (sub-5-minute staleness) but can tolerate seconds of latency — strict real-time scoring is not required.  
+- Feature engineering benefits from short-window aggregates (e.g., moving averages, rate-of-change metrics).  
+- Model specialization is preferred (battery, thermal, contextual), since a single model underperforms across all failure modes.  
+- Interpretability and auditability are required for fleet operations and compliance.
 
 ## Decision
-Adopt a **per-vehicle micro-batch** pipeline (e.g., 1–3 minute windows) that:
-1. **Aggregates** the last N minutes of telemetry per vehicle into a feature vector.
-2. **Runs multiple specialized models** (battery degradation, thermal risk, anomaly detection, usage/context risk).
-3. **Combines** their outputs via a **calibrated weighted ensemble** (stacked meta-learner or constrained linear combiner) to produce a single probability of “maintenance needed in next 2–3 hours.”
-4. **Emits** a decision + explanation to Fleet Ops with an SLA of <5 minutes from data arrival.
+Adopt a **per-vehicle micro-batch inference pipeline** that:
+1. Aggregates the last N minutes of telemetry per vehicle into a feature vector (1–3 minute windows).  
+2. Executes multiple **specialized models** (battery degradation, thermal risk, anomaly detection, contextual usage).  
+3. Combines model outputs using a **calibrated weighted ensemble** (meta-learner or constrained linear combiner) to produce a single probability of “maintenance needed in the next 2–3 hours.”  
+4. Emits a scored decision and explanatory metadata to Fleet Operations within an SLA of under 5 minutes from data arrival.
 
-## Scope
-- In scope: data engineering (micro-batch), feature store, model serving for batch inference, ensemble logic, alerting, monitoring, A/B rollout.
-- Out of scope: long-horizon capacity forecasting; spare-parts optimization (future ADR).
-
-## Architecture (high level)
-- **Ingestion:** Stream telemetry → durable log (e.g., Kafka).
-- **Micro-batching:** Windowed per-vehicle aggregation (1–3 min tumbling windows).
-- **Feature Store:** Write/read time-aligned features (online for serving, offline for training).
-- **Model Execution:** Parallel scoring of specialized models (containerized).
-- **Ensemble Layer:** Calibrated weights or meta-learner (logistic regression) trained on holdout labels; outputs `p(maintenance ≤ 3h)`.
-- **Decision Service:** Thresholding with hysteresis, explanations, and routing to Ops.
-- **Monitoring:** Data/feature drift, model performance, alert precision/volume.
-
-## Rationale
-- **Micro-batch over event-by-event:** Enables robust windowed features (rates/derivatives), reduces noise, and keeps infra costs predictable while meeting freshness needs.
-- **Ensemble over single model:** Specialization handles heterogeneous failure modes; calibrated combiner improves overall precision/recall and stability.
-- **Per-vehicle batching:** Natural keying aligns with how actions are taken (vehicle-level dispatch).
+This design supports near-real-time decisioning with interpretable, model-driven predictions that balance accuracy, latency, and operational usability.
 
 ## Alternatives Considered
-1. **Pure streaming + single model per event**
-   - Pros: lowest latency; simpler serving.
-   - Cons: weaker features (no robust windows), lower accuracy; higher alert noise.
-2. **Daily/hourly batch**
-   - Pros: cheapest; simplest ops.
-   - Cons: stale; misses 2–3h horizon.
-3. **One global model**
-   - Pros: simpler governance.
-   - Cons: underfits rare/long-tail failure modes.
+1. **Pure streaming (event-by-event) model**  
+   - Pros: Lowest latency; simplest pipeline.  
+   - Cons: Poor feature quality, higher noise, reduced precision.  
+2. **Hourly/daily batch predictions**  
+   - Pros: Easy to manage and scale.  
+   - Cons: Too coarse for 2–3h prediction horizon.  
+3. **Single global model**  
+   - Pros: Simplifies governance and deployment.  
+   - Cons: Underfits diverse failure modes across vehicle conditions.
 
-## Data Model & Features (examples)
-- **Battery:** SoC level/Δ, voltage stddev, internal resistance proxy, temperature and dT/dt.
-- **Motion/Usage:** speed variance, stop/start cycles, elevation gain, utilization in last 1/4/12h.
-- **Health Signals:** DTC/error codes, recent repairs, charger session anomalies.
-- **Context:** ambient temp/rain (joined), congestion proxies, depot distance.
-- **Targets/Labels:** Binary label if maintenance ticket created or verified failure occurred within 2–3h of the prediction timestamp.
+## Rationale
+- **Micro-batching** provides stability and reduces computational overhead while preserving timeliness.  
+- **Model specialization** captures domain-specific risk patterns (battery, usage, environment).  
+- **Ensemble inference** yields improved overall precision/recall and model stability across contexts.  
+- **Per-vehicle aggregation** naturally aligns with how maintenance actions are executed.
 
-## Ensemble Design
-- **Base models (parallel):**
-  - `M_batt`: gradient boosted trees for battery wear/instability.
-  - `M_therm`: thermal excursion classifier.
-  - `M_anom`: unsupervised anomaly score (e.g., Isolation Forest/AE) → calibrated to pseudo-prob.
-  - `M_usage`: demand/context risk (short-term stress).
-- **Combiner:** Logistic regression with non-negative weights + Platt/Isotonic calibration; retrained weekly.
-- **Explainability:** Per-model SHAP summaries + ensemble weight contribution in alert payload.
-
-## Decision Logic
-- **Primary threshold:** `p ≥ 0.65` → “Maintenance likely within 3h”.
-- **Hysteresis:** require persistence across two consecutive micro-batches OR `p ≥ 0.8` once for immediate alert.
-- **Rate limit:** Max N alerts/vehicle/12h unless new critical codes appear.
-- **Action routing:** nearest capable technician; include ETA, top contributing features, and last service date.
-
-## Rollout Plan
-1. **Phase 0 (Sandbox):** Backtest on 60–90 days historical data; finalize thresholds.
-2. **Phase 1 (Shadow):** Real-time scoring, no alerts to Ops; validate SLAs.
-3. **Phase 2 (Limited Pilot):** 10–20% fleet; measure precision, lead time, Ops feedback.
-4. **Phase 3 (GA):** Full fleet; weekly retraining cadence; quarterly model review.
+## Risks & Mitigations
+| Risk | Mitigation |
+|------|-------------|
+| Telemetry gaps | Impute missing data and surface confidence levels |
+| Concept drift (weather, usage shifts) | Scheduled retraining; monitoring PSI on features |
+| Alert fatigue | Use hysteresis, thresholds, and rate limits |
+| Label leakage | Enforce time-forward validation during training |
 
 ## Acceptance Criteria
-- End-to-end pipeline delivers scored decisions within SLA for ≥95% vehicles.
-- Pilot achieves **≥0.7 precision** and **≥0.5 recall** on validated labels, median lead time ≥60 min.
-- Ops confirms actionable explanations and reduced unplanned outages by ≥15% in pilot group.
-
-## Open Questions
-- Final window size (1 vs. 3 minutes) and ensemble threshold per vehicle type.
-- Source of external context (weather/events) and licensing.
-- Technician capacity constraints integration (to prioritize alerts under load).
+- End-to-end pipeline delivers decisions within 5 minutes for ≥95% of vehicles.  
+- Pilot achieves **≥0.7 precision** and **≥0.5 recall**, with median lead time ≥60 minutes.  
+- Demonstrated 15%+ reduction in unplanned outages during pilot phase.  
