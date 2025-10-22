@@ -71,35 +71,11 @@ Adopt a **per-vehicle micro-batch** pipeline (e.g., 1–3 minute windows) that:
 - **Rate limit:** Max N alerts/vehicle/12h unless new critical codes appear.
 - **Action routing:** nearest capable technician; include ETA, top contributing features, and last service date.
 
-## SLAs & SLOs
-- **Freshness:** ≤5 minutes from last event to decision.
-- **Availability:** 99.5% decision service.
-- **Precision@K:** ≥0.7 precision for top-priority alerts (tunable).
-- **Lead time:** median ≥60 minutes before failure/ticket.
-- **Coverage:** ≥95% of active fleet scored each cycle.
-
-## Monitoring & Ops
-- **Data quality:** missing rate, outliers, timestamp skew; auto-fallback to last good features.
-- **Drift:** PSI on key features; auto-retrain suggestions.
-- **Performance:** rolling precision/recall, alert acceptance rate by Ops, false-positive cost.
-- **Canaries:** 10% vehicles scored by ensemble vs. champion; compare metrics.
-- **Audit:** Store features, model versions, scores, thresholds, explanations per decision.
-
-## Security & Privacy
-- Pseudonymize vehicle IDs in modeling; restrict GPS granularity in stored features where not needed.
-- Encrypt data at rest/in transit; RBAC for Ops vs. Data Science access.
-
 ## Rollout Plan
 1. **Phase 0 (Sandbox):** Backtest on 60–90 days historical data; finalize thresholds.
 2. **Phase 1 (Shadow):** Real-time scoring, no alerts to Ops; validate SLAs.
 3. **Phase 2 (Limited Pilot):** 10–20% fleet; measure precision, lead time, Ops feedback.
 4. **Phase 3 (GA):** Full fleet; weekly retraining cadence; quarterly model review.
-
-## Risks & Mitigations
-- **Telemetry gaps:** Impute and degrade gracefully; surface confidence scores.
-- **Concept drift (seasonality/events):** Scheduled retrains; demand/context model uses recent windows.
-- **Alert fatigue:** Hysteresis + rate limiting; involve Ops in threshold tuning.
-- **Label leakage:** Strict time-forward validation; freeze features at prediction time.
 
 ## Acceptance Criteria
 - End-to-end pipeline delivers scored decisions within SLA for ≥95% vehicles.
@@ -110,7 +86,3 @@ Adopt a **per-vehicle micro-batch** pipeline (e.g., 1–3 minute windows) that:
 - Final window size (1 vs. 3 minutes) and ensemble threshold per vehicle type.
 - Source of external context (weather/events) and licensing.
 - Technician capacity constraints integration (to prioritize alerts under load).
-
-## Versioning & Ownership
-- Models and ensemble registered in Model Registry with semantic versioning.
-- Changes to thresholds/weights require a lightweight RFC and offline validation.
