@@ -1,4 +1,4 @@
-# ADR-002: Adopt a Hybrid Predictive + Generative AI Architecture
+# ADR-02: Adopt a Hybrid Predictive + Generative AI Architecture
 
 **Status:** Accepted
 **Date:** 2025-10-19
