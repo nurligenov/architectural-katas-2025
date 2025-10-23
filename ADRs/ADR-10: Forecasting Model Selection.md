@@ -1,7 +1,7 @@
 # ADR-010: Forecasting Model Selection
 
 ## Status
-- PROPOSED
+- Accepted
 
 ## Context
 MobilityCorp requires accurate, scalable, and interpretable forecasting to anticipate demand for different vehicle types across city zones.  
