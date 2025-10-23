@@ -1,5 +1,3 @@
-![Cover picture](/assets/readme-cover-picture-latest.svg "cover picture")
-
 # MobilityCorp | O’Reilly Architectural Katas (Fall 2025)
 
 A structured approach to the **O’Reilly Fall 2025 Architectural Kata Challenge** focused on AI-driven fleet optimization for e-scooters, e-bikes, cars, and vans.
