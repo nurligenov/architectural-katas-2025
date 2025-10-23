@@ -45,7 +45,7 @@ For micro-mobility, **battery packs are swapped by staff in vans**, who also reb
 ## Core Challenges
 1. **Right vehicle, right place, right time:** demand often mismatches supply.   
 2. **Energy readiness:** vehicles run out of charge; we must **prioritize which bikes/scooters to swap**.   
-3. **Habit formation:** increase frequency/regularity of customer usage (e.g., commutes). 
+3. **Inconsistent usage:** customers only use our vehicles on an ad-hoc basis. We would like them to rely on us for daily commute.
 
 ## Objectives & Success Criteria
 - **Availability Uplift:** Reduce stock-outs at high-demand bays; increase pickup conversion.
