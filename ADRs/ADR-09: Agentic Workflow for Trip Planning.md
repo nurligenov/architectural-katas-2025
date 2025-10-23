@@ -1,5 +1,5 @@
 # ADR-09: Agentic Workflow for Trip Planning
-**Status**: Proposed
+**Status**: ACCEPTED
 
 ## Context
 We are tackling the challenge that most of our customers only use our service on an ad-hoc basis. We would like more of them to rely on us on a regular basis like daily commmute. 
