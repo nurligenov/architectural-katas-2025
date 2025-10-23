@@ -81,6 +81,7 @@ By introducing AI-driven forecasting, route optimization, and natural-language o
 | **UC-03** | **Clustered Battery Swap Routing** | Batch grouping of low-SoC vehicles into clusters and generating optimal routes for staff. | K-Means / DBSCAN + CVRPTW Solver |
 | **UC-04** | **LLM Ops Co-Pilot** | Summarize alerts and recommend battery swap priorities in natural language for dispatchers. | GPT / Claude via LangChain |
 | **UC-05** | **Vision-Based Return Verification** | Validate vehicle return photos and charger connections for cars/vans. | CNN-based Image Classification |
+| **UC-06** | **AI Trip Assistant** | Plan routes, book vehicles and help users to better navigate using our service. | MCP Architecture with hooks to AI gateway and APIs
 
 ---
 
