@@ -1,4 +1,4 @@
-# ADR-011: Forecasting Model Selection
+# ADR-010: Forecasting Model Selection
 
 ## Status
 - PROPOSED
