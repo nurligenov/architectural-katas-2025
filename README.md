@@ -167,9 +167,79 @@ TODO: add C3 diagram
 ---
 
 ### **Data Flow Overview**
+![LData Flow](./assets/data_flow.png)
+#### **Data Sources**
+The system ingests multiple event streams that describe both **vehicle activity** and **external conditions**:
 
-The following flow summarizes how data moves through the **Forecasting and Alerting Engine**, from telemetry ingestion to actionable alerts and feedback loops.
-TODO: add diagram with description
+- **Rental Data:** Time, day of week, location, and vehicle type for every rental event.
+- **GPS Logs:** Trip start, trip end, and travel patterns for all assets.
+- **Weather Data:** Live and forecasted temperature, rain, or wind levels that affect ride patterns and charging rates.
+- **Calendar Events:** Concerts, sporting events, or holidays that can influence demand surges in specific areas.
+- **Public Transit Feeds:** Strikes, delays, or service disruptions that impact multi-modal transport demand.
+- **Real-Time Data:** Fleet status (vehicle availability, charge level, location) and traffic congestion data.
+
+All incoming data is pushed into a centralized **Events Queue**, which acts as the unified event pipeline for downstream processing.
+
+---
+
+#### **Data Platform and Storage**
+The **Data Platform** aggregates all ingested data into structured layers:
+
+- **Feature Store:** Holds curated and engineered features for model inference and retraining.
+- **Historic Repository:** Stores long-term trends, past usage, and operational outcomes.
+- **Data Lake:** Maintains raw, semi-structured event data for analytics and experimentation.
+- **TSDB (Time-Series Database):** Optimized for frequent telemetry updates like SoC, GPS, and trip frequency.
+
+This platform forms the backbone of the **AI Core**, ensuring models have access to both historical and real-time context.
+
+---
+
+#### **AI Core Processing**
+The **AI Core** orchestrates model-driven intelligence and decision-making:
+
+1. **Feature Engineering Service** processes data from the Data Platform to build model-ready features.
+2. **Forecasting Service** predicts:
+   - **Demand:** Expected rentals per bay and time window.
+   - **SoC Depletion:** When vehicles will likely require charging or battery swaps.
+3. **AI Gateway** manages secure model execution and LLM integration, combining:
+   - ML model outputs (forecasts)
+   - External context (future weather, local events)
+4. **LLM (Generative AI)** layer interprets predictions to produce actionable insights, such as:
+   - Natural-language summaries for dashboards.
+   - Personalized notifications to customers.
+
+---
+
+#### **Notifications and User Interaction**
+- **User Notification Service:** Generates **time-sensitive push notifications** — e.g., “Increased demand expected near Trafalgar Square; book early.”  
+- **Assistant Service:** Responds to user queries like “I’d like to go to Buckingham Palace,” fetching forecasted availability and estimated SoC to recommend the best vehicle.
+
+These two services bridge AI analytics with the **customer experience**, making AI insights accessible and context-aware.
+
+---
+
+#### **Maintenance and Alerting**
+- A **CRON Scheduler** periodically triggers the **Maintenance Alerting & Notification System**, which uses forecasts and asset telemetry to:
+  - Identify high-risk zones with multiple vehicles nearing depletion.
+  - Prioritize swaps or recharges based on location, severity, and service capacity.
+
+- The **Maintenance Team Dashboard** displays prioritized actions and critical alerts, ensuring timely interventions.
+
+---
+
+#### **Dashboards and Insights**
+- **Operations Dashboards:** Show real-time AI-driven forecasts, vehicle readiness, and swap priorities.
+- **Maintenance Dashboards:** Highlight critical battery depletion patterns, faulty assets, or service backlogs.
+- **Customer Insights:** Provide upcoming event-based booking prompts and personalized journey suggestions.
+
+---
+
+#### **Feedback Loop**
+Every completed rental, charging action, or maintenance task feeds back into the **Data Platform**, closing the learning loop.  
+This allows the AI Core to:
+- Recalibrate forecasts.
+- Detect new behavior patterns.
+- Continuously improve accuracy through retraining.
 
 ---
 
