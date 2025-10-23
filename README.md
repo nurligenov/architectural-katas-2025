@@ -79,9 +79,8 @@ By introducing AI-driven forecasting, route optimization, and natural-language o
 | **UC-01** | **Demand Forecasting** | Predict hourly demand per bay using time-series forecasting. | Temporal Fusion Transformer (TFT) |
 | **UC-02** | **Battery Depletion Model** | Estimate time-to-empty (TTE) from telemetry and environment data. | Gradient Boosted Decision Trees (GBDT) |
 | **UC-03** | **Clustered Battery Swap Routing** | Batch grouping of low-SoC vehicles into clusters and generating optimal routes for staff. | K-Means / DBSCAN + CVRPTW Solver |
-| **UC-04** | **LLM Ops Co-Pilot** | Summarize alerts and recommend battery swap priorities in natural language for dispatchers. | GPT / Claude via LangChain |
+| **UC-06** | **AI Trip Assistant** | Plan routes, book vehicles and help users perform daily tasks using our service. | MCP client/server architecture with hooks to LLM models and APIs
 | **UC-05** | **Vision-Based Return Verification** | Validate vehicle return photos and charger connections for cars/vans. | CNN-based Image Classification |
-| **UC-06** | **AI Trip Assistant** | Plan routes, book vehicles and help users to better navigate using our service. | MCP Architecture with hooks to AI gateway and APIs
 
 ---
 
@@ -226,7 +225,13 @@ To ensure scalability, observability, and reliability, the architecture adopts p
 - Combines predictive and clustering models (TFT + GBDT + K-Means).  
 - Optimized for stability and scalability across multiple cities.
 
-### **4. LLM Co-Pilot Integration (ADR-09)**
+### **4. AI Trip Assistant (ADR-09)**
+- Help users find the best route using our service
+- Book vehicles for them ahead of time on user consent
+- Recommend best subscription pack and purchase it for them
+- Plan and book vehicles for fun day trips using local events
+
+### **4.1 LLM Ops Co-pilot
 - Provides explainability and dispatcher assistance.  
 - Generates summaries, route recommendations, and shift briefings.  
 - Uses structured prompt templates, guardrails, and confidence-based fallbacks.
