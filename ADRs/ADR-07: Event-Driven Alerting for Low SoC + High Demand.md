@@ -11,7 +11,7 @@ Dispatchers need early alerts when vehicles in high-demand areas are approaching
 Implement an **event-driven alerting system** built on **Kafka or Redis Streams**.
 Each telemetry message includes `vehicle_id`, `bay_id`, `SoC`, and `predicted_demand`.
 An alert is triggered when:
-```SoC < 25% AND Predicted_Demand_next_2h > threshold```
+```SoC < limit% AND Predicted_Demand_next_2h > threshold```
 
 Alerts are summarized by an **LLM Alert Summarizer** and pushed to the Dispatcher Dashboard and mobile apps.
 
