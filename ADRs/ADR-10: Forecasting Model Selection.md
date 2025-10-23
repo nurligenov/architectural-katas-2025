@@ -12,7 +12,6 @@ The forecasting system must:
 - Enable **retraining and evaluation** for continuous improvement.
 
 Additionally, forecasts feed into:
-- **Reinforcement Learning agents** (for redistribution planning).
 - **Generative AI systems** (for proactive customer interactions).
 - **Operational dashboards** for planning and reporting.
 
