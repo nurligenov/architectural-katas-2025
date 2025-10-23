@@ -379,30 +379,30 @@ Through the design and iteration of the **MobilityCorp AI Optimization Platform*
 
 ---
 
-### 1. Forecasting Accuracy is Only Half the Battle**
+### 1. **Forecasting Accuracy is Only Half the Battle**
 Even highly accurate demand or SoC depletion forecasts do not automatically yield operational impact.  
 The key is **translating predictions into actionable workflows** — combining clustering, routing, and human-in-the-loop review to ensure outcomes are both **intelligent and practical**.
 
 ---
 
-### 2. Batch vs. Real-Time Trade-Offs**
+### 2. **Batch vs. Real-Time Trade-Offs**
 We discovered that **real-time alerts** introduced too much operational noise, while **batch recommendations** (every 15–30 minutes) offered a better balance between freshness and reliability.  
 This hybrid approach keeps operations stable and allows dispatchers to act decisively instead of reactively.
 
 ---
 
-### 3. Generative AI as a Communication Bridge**
+### 3. **Generative AI as a Communication Bridge**
 The **LLM Co-Pilot** proved invaluable not as a decision-maker but as a **translator between data and people**.  
 By turning clusters, forecasts, and route data into natural-language recommendations, dispatchers understood system decisions faster and trusted them more — improving adoption and usability.
 
 ---
 
-### 4. Clustering > Chaos**
+### 4. **Clustering > Chaos**
 Spatial clustering (K-Means / DBSCAN) simplified what was once an overwhelming task — managing hundreds of low-SoC vehicles at once.  
 Grouping nearby tasks gave us a way to reason about operational zones, reduce redundant travel, and make route optimization computationally tractable.
 
 ---
 
-### 5. Continuous Feedback Loops are Non-Negotiable**
+### 5. **Continuous Feedback Loops are Non-Negotiable**
 The system’s effectiveness improves only when **telemetry, outcomes, and human feedback** flow back into retraining pipelines.  
 Metrics-driven retraining and drift detection turned the models from static predictors into **living systems that evolve with the city**.
