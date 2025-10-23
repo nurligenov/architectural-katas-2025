@@ -136,8 +136,8 @@ TODO: add C3 diagram
 |                 ▼                                  ▼                                        |
 |   ┌──────────────────────────────┐   ┌──────────────────────────────┐                       |
 |   │  Clustering Engine           │   │  Route Optimizer             │                       |
-|   │  - K-Means / DBSCAN          │   │  - CVRPTW (OR-Tools)         │                       |
-|   │  - Groups vehicles by area   │   │  - Plans swap van routes     │                       |
+|   │  - K-Means / DBSCAN          │   │   - Plans swap van routes    │                       |
+|   │  - Groups vehicles by area   │   │                              │                       |
 |   └─────────────┬────────────────┘   └─────────────┬────────────────┘                       |
 |                 │                                  │                                        |
 |                 ▼                                  ▼                                        |
