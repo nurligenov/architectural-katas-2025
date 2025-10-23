@@ -277,7 +277,7 @@ This layer bridges AI outputs with human understanding and decision-making.
 
 ---
 
-### **End-to-End Flow**
+#### **End-to-End Flow**
 1. **Data Platform / Feature Store** → supplies telemetry, weather, and event data.  
 2. **Feature Engineering Service** → prepares and updates model features.  
 3. **Forecasting Engine** → predicts demand and SoC depletion.  
@@ -290,6 +290,24 @@ This layer bridges AI outputs with human understanding and decision-making.
 9. **Feedback Loop:** Operational data is written back to the Data Platform for retraining.
 
 ---
+
+### **Assistant Service (MCP Host) — Summary**
+![AI Assistant](./assets/ai-assistant-diagram.png)
+The **Assistant Service** enables customers to interact with MobilityCorp through natural-language requests — for example, planning a trip or finding the best subscription plan.  
+It sits on top of a modular **MCP (Mobility Control Platform)** architecture, which connects conversational AI with backend systems via secure APIs.
+
+When a user makes a request, the appropriate **MCP Client** (e.g., for routing, user info, payments, or historical data) passes the query through the **AI Gateway** for reasoning and context.  
+The AI Gateway interprets intent, retrieves required data, and calls the matching **MCP Server**, which interfaces with operational APIs such as:
+
+- **Routing Services** → Vehicle Availability & Google Maps API for best routes.  
+- **User Management** → User Minutes API for credit checks and account updates.  
+- **Payments** → Stripe/Adyen via the Payment Service and Price API.  
+- **History & Recommendations** → Usage Data API for personalized subscription advice.
+
+The Assistant then responds in plain language with actionable outputs—like a suggested route, payment confirmation, or subscription recommendation.
+
+This design allows **AI reasoning**, **data integration**, and **real-time actions** to work together seamlessly, providing a conversational, intelligent user experience without exposing backend complexity.
+
 
 ## Limitations
 
