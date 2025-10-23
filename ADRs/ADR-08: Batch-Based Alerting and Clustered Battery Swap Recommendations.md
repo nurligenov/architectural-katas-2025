@@ -1,7 +1,7 @@
 # ADR-08: Batch-Based Alerting and Clustered Battery Swap Recommendations
 
 **Status:** Accepted  
-**Date:** 2025-10-19  
+**Date:** 2025-10-23  
 
 ## Context
 Scooters and bikes frequently deplete their batteries during high-demand periods, impacting service availability and customer satisfaction.  
