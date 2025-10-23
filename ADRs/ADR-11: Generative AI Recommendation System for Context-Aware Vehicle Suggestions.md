@@ -1,4 +1,4 @@
-# ADR-12: Generative AI Recommendation System for Context-Aware Vehicle Suggestions
+# ADR-11: Generative AI Recommendation System for Context-Aware Vehicle Suggestions
 
 ## Status
 - PROPOSED
