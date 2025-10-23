@@ -225,7 +225,7 @@ To ensure scalability, observability, and reliability, the architecture adopts p
 - Combines predictive and clustering models (TFT + GBDT + K-Means).  
 - Optimized for stability and scalability across multiple cities.
 
-### **4. LLM Co-Pilot Integration (ADR-TBD)**
+### **4. LLM Co-Pilot Integration (ADR-09)**
 - Provides explainability and dispatcher assistance.  
 - Generates summaries, route recommendations, and shift briefings.  
 - Uses structured prompt templates, guardrails, and confidence-based fallbacks.
