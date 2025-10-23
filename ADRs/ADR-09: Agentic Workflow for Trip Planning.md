@@ -11,7 +11,22 @@ We are tackling the challenge that most of our customers only use our service on
 - As a result, their trip planning experience involves a lot of extra thinking.
 - The vehicle booking experience can be too length. For first timers, if they are in a rush, first finding the route, then setting up their account and finally locating a bike is usually too much of a hassle. Many users quit when feeling like there are too many steps.
 
-## Solution
-We can offer 
+## Decision
+We will implement an **agentic workflow** powered by a **personal mobility assistant agent** that manages **both vehicle booking and navigation**.  
+This agent will anticipate user intent, reserve vehicles automatically or on confirmation, and guide users through the best route to their destination.
+
+### Core Capabilities
+- **Predictive Commute Planning:** Learns from past travel patterns, calendar events, and contextual signals (e.g., time of day, weather, traffic).  
+- **Seamless Booking:** Automatically reserves the preferred vehicle near the user’s starting point or destination ahead of commute time.  
+- **Integrated Navigation:** Provides step-by-step navigation once the trip starts — switching between walking and e-vehicle routes dynamically.  
+- **Adaptive Behavior:** Continuously refines its recommendations based on feedback, cancellations, and trip satisfaction signals.  
+- **User Control:** Users can set preferences for automation level (auto-book, suggest only, or manual confirm) and route options.  
+
+### Technical Approach
+- **Agent Orchestration Layer:** Built with a modular LLM-driven framework (e.g., LangChain or Semantic Kernel) orchestrating booking and navigation APIs.  
+- **Contextual Event Triggers:** Initiated by signals like user proximity, calendar alerts, or regular commute times.  
+- **Data Sources:** User trip history, live vehicle availability, maps, traffic, and weather data.  
+- **Integration:** The agent will be accessible via both backend and mobile app SDKs for consistent experience across platforms.
+
 
 
