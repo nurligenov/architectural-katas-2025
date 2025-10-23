@@ -184,14 +184,14 @@ This allows the AI Core to:
 ---
 
 ### **AI Core Architecture Summary**
-![AI Core](./assets/ai_core.png)
+![AI Core](./assets/aI_core.png)
 The **AI Core** is the central intelligence engine that transforms raw data from the **Data Platform** into actionable forecasts, alerts, and insights for both maintenance teams and customer-facing services.
 
 It integrates multiple AI and machine learning components, ensuring that predictions, optimization, and decision outputs are consistent and explainable across the MobilityCorp ecosystem.
 
 ---
 
-#### ** Data Inputs**
+#### **Data Inputs**
 The AI Core ingests preprocessed and historical data from two main sources:
 - **Data Platform:** Provides historical usage trends, telemetry, and contextual data (weather, events, demand).  
 - **Feature Store:** Supplies structured, model-ready features engineered from real-time telemetry and past behavior.
@@ -200,7 +200,7 @@ These inputs ensure that all downstream models receive consistent, standardized 
 
 ---
 
-#### ** Feature Engineering Service**
+#### **Feature Engineering Service**
 - Cleanses, aggregates, and enriches data received from the Data Platform.  
 - Creates model-ready feature vectors for both forecasting and alert detection.  
 - Writes updated feature sets back to the **Feature Store**, maintaining temporal consistency.
@@ -209,7 +209,7 @@ This service serves as the **data transformation bridge** between ingestion and 
 
 ---
 
-#### ** Forecasting Engine**
+#### **Forecasting Engine**
 - Uses two predictive models:
   - **TFT (Temporal Fusion Transformer)** — forecasts future demand patterns per bay, time of day, and location.  
   - **GBDT (Gradient Boosted Decision Trees)** — estimates battery SoC depletion rates and charging needs.  
@@ -219,7 +219,7 @@ The engine continuously updates its outputs using the latest feature data from t
 
 ---
 
-#### ** Alert Detection Engine**
+#### **Alert Detection Engine**
 - Employs a **KNN (K-Nearest Neighbors)** model to detect abnormal telemetry behavior, such as:
   - Unexpected SoC drops  
   - Irregular GPS or trip durations  
@@ -230,7 +230,7 @@ This ensures fleet health monitoring and proactive maintenance.
 
 ---
 
-#### ** Optimization Model Interface**
+#### **Optimization Model Interface**
 - Acts as the **decision layer** within the AI Core.  
 - Consumes forecasts and alerts, then computes **priority rankings** and **task weights** (e.g., which vehicles or bays should be serviced first).  
 - Feeds optimized outputs to:
@@ -241,7 +241,7 @@ It effectively translates predictions into **operational priorities**.
 
 ---
 
-#### ** AI Gateway Client**
+#### **AI Gateway Client**
 - Securely connects the AI Core with external AI providers via the **AI Gateway**.  
 - Routes requests for:
   - LLM summarization  
@@ -251,7 +251,7 @@ It effectively translates predictions into **operational priorities**.
 
 ---
 
-#### ** LLM Analytics & Summarizer**
+#### **LLM Analytics & Summarizer**
 - Converts structured data and optimization results into **natural-language insights** for users and staff.  
 - Works through **AI Gateway** or **MCP Clients** to:
   - Summarize maintenance priorities for dashboards.  
@@ -264,20 +264,20 @@ This layer bridges AI outputs with human understanding and decision-making.
 
 ---
 
-#### ** MCP Clients**
+#### **MCP Clients**
 - Represent downstream systems (e.g., mobile apps, dashboards, or service orchestration tools).  
 - Consume insights from the LLM layer and integrate them into UI or operational actions.  
 
 ---
 
-#### ** External Services**
+#### **External Services**
 - **Forecasting Service:** Provides periodic forecasting summaries to dashboards and planners.  
 - **Assistant Service:** Handles user queries, translating LLM insights into conversational responses.  
 - **CRON Service:** Triggers batch maintenance alerts based on forecast data and optimization priorities.
 
 ---
 
-### ** End-to-End Flow**
+### **End-to-End Flow**
 1. **Data Platform / Feature Store** → supplies telemetry, weather, and event data.  
 2. **Feature Engineering Service** → prepares and updates model features.  
 3. **Forecasting Engine** → predicts demand and SoC depletion.  
@@ -288,71 +288,6 @@ This layer bridges AI outputs with human understanding and decision-making.
 8. **Outputs:**  
    - Sent to **Maintenance Alert System**, **User Notifications**, **Assistant Service**, and **Dashboards**.  
 9. **Feedback Loop:** Operational data is written back to the Data Platform for retraining.
-
----
-
-> **In summary:**  
-> The AI Core transforms MobilityCorp’s rich telemetry and contextual data into **forecast-driven, explainable intelligence**, bridging data science, automation, and human decision-making.  
-> It ensures every forecast, alert, and route plan is **data-backed, interpretable, and continuously improving**.
-
-
-### **C3 Diagram — Forecasting and Alerting Engine**
-TODO: add C3 diagram
-```plaintext
-+---------------------------------------------------------------------------------------------+
-|                                Forecasting & Alerting System                                |
-|---------------------------------------------------------------------------------------------|
-|                                                                                             |
-|   ┌──────────────────────────────┐                                                          |
-|   │   Scheduler (Airflow/Dagster)│                                                          |
-|   │  - Runs every 15–30 mins     │                                                          |
-|   └─────────────┬────────────────┘                                                          |
-|                 │                                                                           |
-|                 ▼                                                                           |
-|   ┌──────────────────────────────┐   ┌───────────────────────────────┐                      |
-|   │  Data Collector              │   │   Forecasting Service         │                      |
-|   │  - Pulls telemetry (SoC, GPS)│   │   - Demand Forecast (TFT)     │                      |
-|   │  - Gathers user activity     │   │   - Battery Depletion (GBDT)  │                      |
-|   │  - Includes weather/events   │   └─────────────┬─────────────────┘                      |
-|   └─────────────┬────────────────┘                 │                                        |
-|                 │                                 ▼                                         |
-|                 │                    ┌───────────────────────────────┐                      |
-|                 │                    │   Alert Engine                │                      |
-|                 │                    │  - Aggregates forecast + SoC  │                      |
-|                 │                    │  - Identifies low-SoC clusters│                      |
-|                 │                    │  - Scores urgency per bay     │                      |
-|                 │                    └─────────────┬─────────────────┘                      |
-|                 │                                  │                                        |
-|                 ▼                                  ▼                                        |
-|   ┌──────────────────────────────┐   ┌──────────────────────────────┐                       |
-|   │  Clustering Engine           │   │  Route Optimizer             │                       |
-|   │  - K-Means / DBSCAN          │   │   - Plans swap van routes    │                       |
-|   │  - Groups vehicles by area   │   │                              │                       |
-|   └─────────────┬────────────────┘   └─────────────┬────────────────┘                       |
-|                 │                                  │                                        |
-|                 ▼                                  ▼                                        |
-|   ┌──────────────────────────────┐   ┌───────────────────────────────┐                      |
-|   │  LLM Summarizer              │   │  Alert Dispatcher             │                      |
-|   │  - Converts data to text     │   │  - Pushes to Dashboard, App   │                      |
-|   │  - Generates ops summaries   │   │  - REST / WebSocket           │                      |
-|   └─────────────┬────────────────┘   └─────────────┬─────────────────┘                      |
-|                 │                                  │                                        |
-|                 ▼                                  ▼                                        |
-|   ┌──────────────────────────────┐   ┌───────────────────────────────┐                      |
-|   │ Dispatcher Dashboard         │   │ Field Staff App               │                      |
-|   │ - Shows alerts & clusters    │   │ - Receives swap routes        │                      |
-|   │ - Approves route plans       │   │ - Reports completion          │                      |
-|   └─────────────┬────────────────┘   └─────────────┬─────────────────┘                      |
-|                 │                                  │                                        |
-|                 ▼                                  ▼                                        |
-|         ┌──────────────────────────────┐     ┌───────────────────────────────┐              |
-|         │  Metrics & Drift Monitor     │     │  Operational Data Store       │              |
-|         │  - Logs alert accuracy       │     │  - Stores telemetry + alerts  │              |
-|         │  - Retrain trigger thresholds│     │  - Feeds retraining pipeline  │              |
-|         └──────────────────────────────┘     └───────────────────────────────┘              |
-|                                                                                             |
-+---------------------------------------------------------------------------------------------+
-```
 
 ---
 
