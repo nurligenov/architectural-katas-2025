@@ -1,7 +1,7 @@
 # ADR-03: Per-Vehicle Micro-Batch + Ensemble Inference for 2–3h Maintenance Risk
 
 ## Status
-- **PROPOSED**
+- **Accepted**
 
 ## Context
 We collect real-time telemetry for each electric vehicle (EV): battery (SoC, temperature, voltage), GPS/velocity, diagnostic error codes, usage patterns, and recent maintenance events.  
@@ -16,7 +16,7 @@ Our goal is to predict whether a vehicle will likely require maintenance in the 
 ## Decision
 Adopt a **per-vehicle micro-batch inference pipeline** that:
 1. Aggregates the last N minutes of telemetry per vehicle into a feature vector (1–3 minute windows).  
-2. Executes multiple **specialized models** (battery degradation, thermal risk, anomaly detection, contextual usage).  
+2. Executes multiple **specialized predictive models** (battery degradation, thermal risk, anomaly detection, contextual usage).  
 3. Combines model outputs using a **calibrated weighted ensemble** (meta-learner or constrained linear combiner) to produce a single probability of “maintenance needed in the next 2–3 hours.”  
 4. Emits a scored decision and explanatory metadata to Fleet Operations within an SLA of under 5 minutes from data arrival.
 
