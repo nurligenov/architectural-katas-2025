@@ -1,6 +1,4 @@
-# Architecture Decision Record (ADR)
-
-## ADR-009: Forecasting Model Selection
+# ADR-011: Forecasting Model Selection
 
 ## Status
 - PROPOSED
