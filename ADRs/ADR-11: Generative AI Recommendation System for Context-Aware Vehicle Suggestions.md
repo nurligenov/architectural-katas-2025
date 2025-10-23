@@ -1,7 +1,7 @@
 # ADR-11: Generative AI Recommendation System for Context-Aware Vehicle Suggestions
 
 ## Status
-- PROPOSED
+- Accepted
 
 ## Context
 MobilityCorp aims to improve customer engagement and satisfaction by proactively offering **personalized trip recommendations** through its mobile app and notifications.  
