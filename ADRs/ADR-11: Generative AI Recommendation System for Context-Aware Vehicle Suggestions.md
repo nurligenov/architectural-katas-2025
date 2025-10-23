@@ -8,7 +8,7 @@ MobilityCorp aims to improve customer engagement and satisfaction by proactively
 Currently, users rent vehicles on an ad-hoc basis, and the company wants to encourage **habitual use** (e.g., daily commutes, planned errands) by anticipating user intent.
 
 The system should:
-- Understand **real-time demand forecasts** (from ADR-11).  
+- Understand **real-time demand forecasts** (from ADR-10).  
 - Personalize messages based on **user history, location, time, and behavior clusters**.  
 - Communicate naturally, generating context-aware suggestions such as:  
   > “Bike demand is high in your area — you might want to reserve one 15 minutes earlier than usual.”  
@@ -19,7 +19,7 @@ The AI component must integrate with existing **forecasting pipelines**, the **f
 
 ## Decision
 Implement a **Generative AI-based Recommendation System** that combines:
-1. **Predictive models** (Prophet, LSTM, GNN from ADR-11) to detect demand surges, patterns, or availability risks.  
+1. **Predictive models** (Prophet, LSTM, GNN from ADR-10) to detect demand surges, patterns, or availability risks.  
 2. **Personalization engine** (ML-based clustering + user context features).  
 3. **LLM-powered message generation** to turn predictions into personalized, conversational suggestions.
 
