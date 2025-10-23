@@ -60,6 +60,7 @@ We will adopt a **MCP Client + MCP Server** architecture so that the agent (host
 - **Observability**: Program traces include model confidence, tool calls, and fallback reasons for post‑mortems and tuning.
 
 ### Negative
+- **Hard to test** since the outcome from LLM is undeterministic
 - **Higher orchestration effort** to enumerate uncertainty paths and retries.  
 - **Latency sensitivity** from real‑time inference + tool hops; requires caching and parallelization.  
 - **Expanded ops surface** (multiple servers, schema/version management, prompt governance).
