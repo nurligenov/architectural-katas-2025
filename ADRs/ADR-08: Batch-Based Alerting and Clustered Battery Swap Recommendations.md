@@ -9,13 +9,12 @@ While real-time alerts are valuable, continuous event-driven triggers risk alert
 Instead, the operations team needs **batch-based recommendations** — concise, periodic summaries that identify *which areas need battery swaps*, *how urgent they are*, and *optimal routes* for staff.  
 
 ## Decision
-Shift from **event-driven alerts** to a **batch-oriented recommendation pipeline** that runs every 15–30 minutes.  
+Shift from **event-driven alerts** to a **batch-oriented recommendation pipeline** that runs every N minutes.  
 Each batch process will:
 1. **Aggregate telemetry and prediction data** (SoC, location, demand forecast).  
 2. Identify **low-SoC vehicles** (e.g., SoC < 25%) in **high-demand bays**.  
 3. **Cluster nearby vehicles/bays** using **K-Means** (or DBSCAN for density-based grouping) to form logical swap zones.  
-4. Generate optimal routes per cluster using a **CVRPTW solver** (Capacitated Vehicle Routing Problem with Time Windows).  
-5. Pass results to the **LLM Summarizer**, which converts raw metrics into actionable text for dispatchers, e.g.:
+5. Pass results to the **LLM Summarizer**, which converts raw metrics into actionable text for dispatchers
 
 ## Model Choices
 | Purpose | Model | Description |
