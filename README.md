@@ -79,7 +79,7 @@ By introducing AI-driven forecasting, route optimization, and natural-language o
 | **UC-01** | **Demand Forecasting** | Predict hourly demand per bay using time-series forecasting. | Temporal Fusion Transformer (TFT) |
 | **UC-02** | **Battery Depletion Model** | Estimate time-to-empty (TTE) from telemetry and environment data. | Gradient Boosted Decision Trees (GBDT) |
 | **UC-03** | **Clustered Battery Swap Routing** | Batch grouping of low-SoC vehicles into clusters and generating optimal routes for staff. | K-Means / DBSCAN + CVRPTW Solver |
-| **UC-06** | **AI Trip Assistant** | Plan routes, book vehicles and help users perform daily tasks using our service. | MCP client/server architecture with hooks to LLM models and APIs
+| **UC-04** | **AI Trip Assistant** | Plan routes, book vehicles and help users perform daily tasks using our service. | MCP client/server architecture with hooks to LLM models and APIs
 | **UC-05** | **Vision-Based Return Verification** | Validate vehicle return photos and charger connections for cars/vans. | CNN-based Image Classification |
 
 ---
