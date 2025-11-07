@@ -1,0 +1,38 @@
+# ADR-02: Invest in Building AI Models Using Open-Source Frameworks to Reduce Vendor Dependency
+
+### Status
+- **ACCEPTED**
+
+### Context
+The AI landscape is evolving rapidly, with frequent changes in model availability, pricing, and licensing among commercial providers (e.g., OpenAI, Anthropic, and Google).  
+Relying exclusively on third-party APIs introduces several risks such as:
+- Sudden price increases or API quota restrictions.  
+- Model deprecation or changes to performance guarantees.  
+- Data residency, privacy, or compliance concerns.  
+
+To maintain long-term stability, cost control, and technical flexibility, the team requires a sustainable strategy for developing and maintaining internal AI capabilities.
+
+### Decision
+We will **invest in building and fine-tuning open-source AI models** (e.g., LLaMA, Falcon, Mistral, and similar architectures) hosted within our own infrastructure or private cloud environment.  
+This ensures:
+- **Portability:** freedom to migrate models without vendor lock-in.  
+- **Cost predictability:** stable operational expenses unaffected by external pricing changes.  
+- **Customization:** full control over model fine-tuning, domain adaptation, and deployment schedules.  
+- **Compliance:** ability to maintain internal data governance and privacy standards.  
+
+Open-source models will be integrated into our **AI Gateway**, allowing seamless interchange between proprietary APIs and self-hosted models.
+
+### Alternatives Considered
+1. **Continue using only commercial LLM providers** — rejected due to long-term pricing risk and reduced flexibility.  
+2. **Hybrid approach without internal model ownership** — partially mitigates risk but still relies on external uptime and licensing.  
+
+### Consequences
+**Positive:**
+- Reduces vendor dependency and long-term cost volatility.  
+- Enhances system resilience if external AI providers change pricing or access terms.  
+- Enables on-premise deployments that meet compliance and security requirements.  
+
+**Negative:**
+- Higher upfront investment in infrastructure and engineering resources.  
+- Requires MLOps maturity to manage training, tuning, and hosting lifecycle.  
+- Open-source models may initially underperform compared to frontier proprietary models.
